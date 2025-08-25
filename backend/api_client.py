@@ -194,21 +194,11 @@ class APIClient:
             raise
 
     async def retrieve_ncli(self, phone_number: str) -> dict:
-        # This method is not in the mobile API, it's in the paiement URL.
-        # The original script does not have this method. Let's look at the original script again.
-        # Ah, I see `retrieve_ncli_4glte` and `get_ncli_input_handler`.
-        # The `get_ncli_input_handler` calls `api_client.retrieve_ncli(nd)`.
-        # But `APIClient` in the script doesn't have `retrieve_ncli`.
-        # Let's check `get_ncli_input_handler` again.
-        # Ok, I see it now. The provided script is missing the implementation for `retrieve_ncli`.
-        # It has `retrieve_ncli_4glte` though.
-        # I'll have to assume the user wants me to implement it.
-        # I will look for clues in the `retrieve_ncli_4glte` implementation.
-        # It seems to be a POST to `paiement_url/voucher_internet.php`.
-        # I'll assume the ADSL one is similar. I will search for it.
-        # After a quick search, it seems the endpoint for ADSL/FTTH is `getInfoClient.php`.
-        paiement_url = f"{self.paiement_url}/getInfoClient.php"
-        payload = f"demande=compte&produit=adsl&nd={phone_number}&"
+        """
+        Retrieves NCLI for ADSL/FTTH lines using the correct endpoint.
+        """
+        paiement_url = f"{self.paiement_url}/internet_recharge.php"
+        payload = f"validerADSLco20=Confirmer&ndco20={phone_number}&"
         headers = {
             "Authorization": "Basic VEdkNzJyOTozUjcjd2FiRHNfSGpDNzg3IQ==",
             "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
@@ -220,13 +210,13 @@ class APIClient:
         try:
             response = await self.session.post(paiement_url, data=payload, headers=headers)
             response.raise_for_status()
-            text_response = response.text
-            # The response is not JSON, it's a string like "1|NCLI|..."
-            parts = text_response.split('|')
-            if parts[0] == '1' and len(parts) > 1:
-                return {"succes": 1, "ncli": parts[1]}
-            else:
-                return {"succes": 0, "error": text_response}
+            # The response is JSON, sometimes prefixed with BOM characters
+            text_response = await response.text
+            clean_text = text_response.lstrip('\ufeff').strip()
+            return json.loads(clean_text)
+        except json.JSONDecodeError as e:
+            logger.error(f"Failed to decode JSON from retrieve_ncli: {e}")
+            return {"succes": "0", "error": "Invalid JSON response from server."}
         except httpx.HTTPStatusError as e:
             logger.error(f"Failed to retrieve NCLI: {e.response.status_code}")
             raise Exception(f"Failed to retrieve NCLI: {e.response.status_code}")
