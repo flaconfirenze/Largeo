@@ -62,7 +62,7 @@ const NcliPage = () => {
 
       {ncliInfo && (
         <div>
-          {ncliInfo.succes == 1 || ncliInfo.succes == "1" ? (
+          {String(ncliInfo.succes) === '1' ? (
             <div>
               <h3>✅ تم العثور على رقم الزبون</h3>
               <p><strong>🆔 رقم الزبون:</strong> <code>{ncliInfo.ncli}</code></p>
