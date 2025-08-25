@@ -30,7 +30,19 @@ class APIClient:
             return response.json()
         except httpx.HTTPStatusError as e:
             logger.error(f"Login failed: {e.response.status_code}")
-            raise Exception(f"Login failed: {e.response.status_code}")
+            error_message = f"Login failed with status code: {e.response.status_code}"
+            try:
+                # Try to parse the error response from the external API
+                error_body = e.response.json()
+                # The external API might use 'message' or 'error' key
+                if 'message' in error_body:
+                    error_message = error_body['message']
+                elif 'error' in error_body:
+                    error_message = error_body['error']
+            except Exception:
+                # If the response is not JSON or key is not found, use the raw text
+                error_message = e.response.text or error_message
+            raise Exception(error_message)
         except Exception as e:
             logger.error(f"API request failed: {str(e)}")
             raise

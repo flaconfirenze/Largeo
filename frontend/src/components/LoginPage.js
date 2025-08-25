@@ -16,7 +16,9 @@ const LoginPage = () => {
       await login(nd, password);
       navigate('/account'); // Redirect to account page on successful login
     } catch (err) {
-      setError('فشل تسجيل الدخول. يرجى التحقق من بيانات الاعتماد والمحاولة مرة أخرى.');
+      // Display the specific error message from the backend
+      const errorMessage = err.response?.data?.detail || err.message || 'فشل تسجيل الدخول. يرجى التحقق من بيانات الاعتماد والمحاولة مرة أخرى.';
+      setError(errorMessage);
       console.error(err);
     }
   };
