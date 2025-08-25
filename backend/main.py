@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException, status
+import os
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
@@ -21,9 +22,21 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 app = FastAPI()
 
 # --- CORS Middleware ---
+# Get the frontend URL from an environment variable.
+# This allows us to configure the CORS policy for production.
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
+
+# The origins that are allowed to make cross-site requests.
+origins = [
+    "http://localhost:3000",  # For local development
+]
+# Add the production URL to the list if it's set and different from localhost.
+if FRONTEND_URL and FRONTEND_URL not in origins:
+    origins.append(FRONTEND_URL)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Allows frontend to connect
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

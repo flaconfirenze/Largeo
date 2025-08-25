@@ -85,6 +85,8 @@ First, deploy the backend worker using the Wrangler CLI.
 
 ### 2. Configure and Deploy the Frontend
 
+First, you will deploy the frontend. It may not work correctly until the backend is configured in the next step.
+
 1.  **Update the API URL:**
     - Open the `frontend/.env.production` file.
     - Replace the placeholder URL in `REACT_APP_API_URL` with the actual URL of your deployed worker from the previous step.
@@ -96,7 +98,16 @@ First, deploy the backend worker using the Wrangler CLI.
         - **Build command:** `npm run build`
         - **Build output directory:** `frontend/build`
         - **Root directory:** Leave this empty (repository root).
+    - After deploying, you will have a URL for your frontend (e.g., `https://your-project.pages.dev`). **Copy this URL.**
 
-    - Cloudflare will detect the root `package.json` and use its `build` script to build the frontend.
+### 3. Configure Backend CORS
 
-Once the frontend is deployed, it will be live and connected to your backend worker.
+Now, you must configure the backend to accept requests from your deployed frontend.
+
+1.  Go to your Cloudflare dashboard.
+2.  Navigate to `Workers & Pages` and select your `algerie-telecom-api` worker.
+3.  Go to the `Settings` tab, then click on `Variables`.
+4.  Under `Environment Variables`, click `Add variable`.
+5.  Set the `Variable name` to `FRONTEND_URL`.
+6.  Set the `Value` to the full URL of your deployed frontend from the previous step (e.g., `https://your-project.pages.dev`).
+7.  Click `Save and deploy`. This will redeploy your worker with the new setting, allowing it to accept requests from your frontend.
