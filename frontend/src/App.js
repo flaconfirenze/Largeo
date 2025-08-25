@@ -24,12 +24,13 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
 
+              <Route path="/ncli" element={<NcliPage />} />
+
               {/* Protected Routes */}
               <Route element={<ProtectedRoute />}>
                 <Route path="/account" element={<AccountInfo />} />
                 <Route path="/bills" element={<CheckBill />} />
                 <Route path="/recharge" element={<RechargePage />} />
-                <Route path="/ncli" element={<NcliPage />} />
               </Route>
 
             </Routes>

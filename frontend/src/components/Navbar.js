@@ -15,6 +15,7 @@ const Navbar = () => {
     <nav>
       <ul>
         <li><Link to="/">الرئيسية</Link></li>
+        <li><Link to="/ncli">رقم الزبون</Link></li>
         {!token ? (
           <>
             <li><Link to="/login">تسجيل الدخول</Link></li>
@@ -25,7 +26,6 @@ const Navbar = () => {
             <li><Link to="/account">معلومات الحساب</Link></li>
             <li><Link to="/bills">الفواتير</Link></li>
             <li><Link to="/recharge">الشحن</Link></li>
-            <li><Link to="/ncli">رقم الزبون</Link></li>
             <li><button onClick={handleLogout}>تسجيل الخروج</button></li>
           </>
         )}
