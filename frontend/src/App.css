@@ -1,0 +1,179 @@
+/* General App Styling */
+.App {
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f2f5;
+  min-height: 100vh;
+}
+
+main {
+  padding: 2rem 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+main > div {
+  width: 100%;
+  max-width: 600px;
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2, h3 {
+  color: #1c1e21;
+}
+
+/* Navbar */
+nav {
+  background-color: #4a90e2; /* A nicer blue */
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+nav a, nav button {
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+nav a:hover, nav button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Forms */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-top: 1.5rem;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  padding: 0.8rem 1rem;
+  border: 1px solid #dddfe2;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+  outline: none;
+}
+
+button[type="submit"] {
+  background-color: #4a90e2;
+  color: white;
+  padding: 0.8rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+  background-color: #357abd;
+}
+
+button[type="submit"]:disabled {
+  background-color: #9cbce0;
+  cursor: not-allowed;
+}
+
+/* Tab Buttons */
+.tab-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #dddfe2;
+}
+
+.tab-buttons button {
+  background: none;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: #606770;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1px; /* Overlap the container's border */
+}
+
+.tab-buttons button.active {
+  color: #4a90e2;
+  border-bottom-color: #4a90e2;
+  font-weight: 600;
+}
+
+/* Account Info List */
+.account-info-list {
+  list-style: none;
+  padding: 0;
+  text-align: right;
+}
+
+.account-info-list li {
+  padding: 0.8rem 0;
+  border-bottom: 1px solid #f0f2f5;
+  display: flex;
+  justify-content: space-between;
+}
+.account-info-list li:last-child {
+  border-bottom: none;
+}
+
+.account-info-list strong {
+  color: #1c1e21;
+}
+
+/* Result and Error Messages */
+p[style*="color: red"] {
+  background-color: #fbe3e4;
+  color: #d8000c;
+  border: 1px solid #d8000c;
+  padding: 0.8rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+}
+
+div > h3[class*="✅"], div > h3[class*="❌"] {
+  padding: 1rem;
+  border-radius: 6px;
+  margin-top: 1.5rem;
+}
+
+div > h3[class*="✅"] {
+  background-color: #e4f7e4;
+  color: #0c8d0c;
+}
+
+div > h3[class*="❌"] {
+  background-color: #fbe3e4;
+  color: #d8000c;
+}
