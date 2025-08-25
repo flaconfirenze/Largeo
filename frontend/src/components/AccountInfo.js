@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -20,7 +20,7 @@ const AccountInfo = () => {
       setLoading(true);
       setError('');
       try {
-        const response = await axios.get('/api/account-info');
+        const response = await api.get('/api/account-info');
         setAccountData(response.data);
       } catch (err) {
         if (err.response && err.response.status === 401) {

@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 
 const AuthContext = createContext();
 
@@ -9,10 +9,10 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (token) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       localStorage.setItem('token', token);
     } else {
-      delete axios.defaults.headers.common['Authorization'];
+      delete api.defaults.headers.common['Authorization'];
       localStorage.removeItem('token');
     }
   }, [token]);
@@ -24,7 +24,7 @@ const AuthProvider = ({ children }) => {
     formData.append('password', password);
 
     try {
-      const response = await axios.post('/api/login', formData, {
+      const response = await api.post('/api/login', formData, {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       });
       const { access_token } = response.data;

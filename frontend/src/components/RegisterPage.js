@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -31,7 +31,7 @@ const RegisterPage = () => {
     setError('');
     try {
       const { confirmPassword, ...registerData } = formData;
-      const response = await axios.post('/api/register', registerData);
+      const response = await api.post('/api/register', registerData);
 
       // The API returns different codes. "5" means OTP is required.
       if (response.data && response.data.code === "5") {
@@ -56,7 +56,7 @@ const RegisterPage = () => {
     setLoading(true);
     setError('');
     try {
-      const response = await axios.post('/api/confirm-register', {
+      const response = await api.post('/api/confirm-register', {
         nd: formData.nd,
         otp: otp,
       });

@@ -1,0 +1,12 @@
+{
+  "name": "algerie-telecom-web-client",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build",
+    "install:backend": "pip install -r backend/requirements.txt"
+  },
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}

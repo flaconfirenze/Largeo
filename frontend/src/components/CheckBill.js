@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 
 const CheckBill = () => {
   const [nd, setNd] = useState('');
@@ -13,7 +13,7 @@ const CheckBill = () => {
     setError('');
     setBillInfo(null);
     try {
-      const response = await axios.post('/api/check-nd-fact', { nd });
+      const response = await api.post('/api/check-nd-fact', { nd });
       if (response.data && response.data.INFO) {
         setBillInfo(response.data);
       } else {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 
 const RechargePage = () => {
   const [rechargeType, setRechargeType] = useState('adsl'); // 'adsl' or 'lte'
@@ -32,7 +32,7 @@ const RechargePage = () => {
     }
 
     try {
-      const response = await axios.post(url, payload);
+      const response = await api.post(url, payload);
       setResult(response.data);
     } catch (err) {
       setError(err.response?.data?.detail || 'حدث خطأ أثناء عملية الشحن.');

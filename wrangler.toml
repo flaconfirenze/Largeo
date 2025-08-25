@@ -1,0 +1,8 @@
+name = "algerie-telecom-api"
+main = "worker.py"
+compatibility_date = "2023-10-30"
+compatibility_flags = ["python_workers"]
+
+[[rules]]
+type = "ESModule"
+globs = ["**/*.py"]

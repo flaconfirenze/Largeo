@@ -2,14 +2,17 @@
 
 This project is a web application that replicates the functionalities of the provided Python script, which is a Telegram bot for an Algerian telecom company.
 
-The application is built with a React frontend and a FastAPI backend.
+The application is built with a React frontend and a FastAPI backend, configured for deployment on Cloudflare Pages and Cloudflare Workers.
 
 ## Project Structure
 
 - `frontend/`: Contains the React.js single-page application.
 - `backend/`: Contains the FastAPI Python backend.
+- `worker.py`: The entrypoint for the Cloudflare Worker.
+- `wrangler.toml`: Configuration for the Cloudflare Worker.
+- `package.json`: Root package file to orchestrate builds.
 
-## How to Run
+## How to Run Locally
 
 ### Backend
 
@@ -51,13 +54,49 @@ The application is built with a React frontend and a FastAPI backend.
     ```bash
     npm start
     ```
-    The frontend will be running on `http://localhost:3000` and will be proxied to the backend.
+    The frontend will be running on `http://localhost:3000` and will be proxied to the backend for local development.
 
-## Next Steps
+## How to Deploy to Cloudflare
 
-The current state of the application is a basic scaffold. The next steps are to:
+This project is configured for a two-part deployment to Cloudflare:
 
-1.  Implement the logic for each of the frontend components to interact with the backend API.
-2.  Implement proper state management for the user's authentication token.
-3.  Add more detailed UI components for each feature.
-4.  Improve error handling and user feedback.
+1.  **Backend to Cloudflare Workers:** The FastAPI backend is deployed as a serverless worker.
+2.  **Frontend to Cloudflare Pages:** The React frontend is deployed as a static site that communicates with the worker.
+
+### 1. Deploy the Backend
+
+First, deploy the backend worker using the Wrangler CLI.
+
+1.  Install `wrangler` from the root of the project:
+    ```bash
+    npm install
+    ```
+
+2.  Log in to your Cloudflare account:
+    ```bash
+    npx wrangler login
+    ```
+
+3.  Deploy the worker:
+    ```bash
+    npx wrangler deploy
+    ```
+    After deployment, Wrangler will output the URL of your worker (e.g., `https://algerie-telecom-api.your-username.workers.dev`). **Copy this URL.**
+
+### 2. Configure and Deploy the Frontend
+
+1.  **Update the API URL:**
+    - Open the `frontend/.env.production` file.
+    - Replace the placeholder URL in `REACT_APP_API_URL` with the actual URL of your deployed worker from the previous step.
+
+2.  **Deploy to Cloudflare Pages:**
+    - Connect your GitHub repository to a new Cloudflare Pages project.
+    - Use the following build settings:
+        - **Framework preset:** `Create React App`
+        - **Build command:** `npm run build`
+        - **Build output directory:** `frontend/build`
+        - **Root directory:** Leave this empty (repository root).
+
+    - Cloudflare will detect the root `package.json` and use its `build` script to build the frontend.
+
+Once the frontend is deployed, it will be live and connected to your backend worker.

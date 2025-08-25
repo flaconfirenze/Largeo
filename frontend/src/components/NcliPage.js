@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 
 const NcliPage = () => {
   const [ncliType, setNcliType] = useState('adsl'); // 'adsl' or 'lte'
@@ -17,7 +17,7 @@ const NcliPage = () => {
     const url = ncliType === 'adsl' ? '/api/retrieve-ncli' : '/api/retrieve-ncli-4glte';
 
     try {
-      const response = await axios.post(url, { nd });
+      const response = await api.post(url, { nd });
       setNcliInfo(response.data);
     } catch (err) {
       setError(err.response?.data?.detail || 'حدث خطأ أثناء البحث عن رقم الزبون.');

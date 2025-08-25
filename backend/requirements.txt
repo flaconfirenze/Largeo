@@ -5,3 +5,4 @@ pydantic
 python-dotenv
 aiohttp
 python-multipart
+mangum
